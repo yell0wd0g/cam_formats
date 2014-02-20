@@ -31,6 +31,7 @@ int main(){
       for (AVCaptureDeviceFormat* currdf in device.formats){
         NSLog(@"Capture format: %@ ", currdf);
 
+        /*
         // FourCharCode is from generic Foundation.h
         // The APIs preceded by CMFormatDescription are media-agnostic.
         // Coming from CMFormatDescription.h CMPixelFormatType.
@@ -42,6 +43,9 @@ int main(){
             break;
           case kCMPixelFormat_422YpCbCr8_yuvs:
             NSLog(@" Media Subtype: yuvs");
+            break;
+        case kCMVideoCodecType_JPEG_OpenDML:
+            NSLog(@" Media Subtype: dmb1");
             break;
           default:
             NSLog(@"Media subtype unknown: 0x%x", pixelformat);
@@ -59,6 +63,7 @@ int main(){
           NSLog(@" framerate %f-%f",
                 [framerate maxFrameRate], [framerate minFrameRate]);
         }
+        */
       }
     } else {
       NSLog(@"-Non video---------- %@ ---------------", [device localizedName]);
