@@ -18,57 +18,21 @@
 
 int main(){
 
-  NSBundle* avFoundationBundle = [NSBundle
-     bundleWithPath:@"/System/Library/Frameworks/AVFoundation.framework"];
-  [avFoundationBundle load];
-  NSArray* devices = [[avFoundationBundle classNamed:@"AVCaptureDevice"]
-     devices];
+  //NSBundle* avFoundationBundle = [NSBundle
+  //   bundleWithPath:@"/System/Library/Frameworks/AVFoundation.framework"];
+  //[avFoundationBundle load];
+
+  //NSArray* devices = [[avFoundationBundle classNamed:@"AVCaptureDevice"]
+  //   devices];
+  NSArray* devices = [AVCaptureDevice devices];
+
+  NSLog(@" I see %ld devices.", [devices count]);
   for (AVCaptureDevice* device in devices) {
-    if ([device hasMediaType:AVMediaTypeVideo] ||
-        [device hasMediaType:AVMediaTypeMuxed]){
-      NSLog(@"-------------------- %@ ---------------", [device localizedName]);
-      // Array of formats supported natively by the camera/mic hardware.
-      for (AVCaptureDeviceFormat* currdf in device.formats){
+    NSLog(@"-------------------- %@ --------------- %@", 
+          [device localizedName], [device uniqueID]);
+    for (AVCaptureDeviceFormat* currdf in device.formats)
         NSLog(@"Capture format: %@ ", currdf);
-
-        /*
-        // FourCharCode is from generic Foundation.h
-        // The APIs preceded by CMFormatDescription are media-agnostic.
-        // Coming from CMFormatDescription.h CMPixelFormatType.
-        FourCharCode pixelformat =
-            CMFormatDescriptionGetMediaSubType([currdf formatDescription]);
-        switch (pixelformat) {
-          case kCMPixelFormat_422YpCbCr8:
-            NSLog(@" Media Subtype: 2vuy");
-            break;
-          case kCMPixelFormat_422YpCbCr8_yuvs:
-            NSLog(@" Media Subtype: yuvs");
-            break;
-        case kCMVideoCodecType_JPEG_OpenDML:
-            NSLog(@" Media Subtype: dmb1");
-            break;
-          default:
-            NSLog(@"Media subtype unknown: 0x%x", pixelformat);
-        }
-        // Loads of extra information behind the "Extensions":
-        //NSLog(@"Extensions %@",
-        //    CMFormatDescriptionGetExtensions([currdf formatDescription]));
-
-        CMVideoDimensions dims =
-            CMVideoFormatDescriptionGetDimensions([currdf formatDescription]);
-        NSLog(@" Dimensions %dx%d", dims.width, dims.height);
-
-        for (AVFrameRateRange* framerate in
-               [currdf videoSupportedFrameRateRanges]){
-          NSLog(@" framerate %f-%f",
-                [framerate maxFrameRate], [framerate minFrameRate]);
-        }
-        */
-      }
-    } else {
-      NSLog(@"-Non video---------- %@ ---------------", [device localizedName]);
-      for (AVCaptureDeviceFormat* currdf in device.formats)
-        NSLog(@"Capture format: %@ ", currdf);
-    }
   }
 }
+
+
