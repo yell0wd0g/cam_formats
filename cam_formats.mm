@@ -15,6 +15,25 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
+#import <IOKit/audio/IOAudioTypes.h>
+
+// Device connection types
+const char* TransportTypeAsString(int connection) {
+  switch (connection) {
+  case kIOAudioDeviceTransportTypeBuiltIn: return "bltn";
+  case kIOAudioDeviceTransportTypePCI: return "pci ";
+  case kIOAudioDeviceTransportTypeUSB: return "usb ";
+  case kIOAudioDeviceTransportTypeFireWire: return "1394";
+  case kIOAudioDeviceTransportTypeNetwork: return "ntwk";
+  case kIOAudioDeviceTransportTypeWireless: return "wrls";
+  case kIOAudioDeviceTransportTypeOther: return "othr";
+  case kIOAudioDeviceTransportTypeBluetooth: return "blue";
+  case kIOAudioDeviceTransportTypeVirtual: return "virt";
+  case kIOAudioDeviceTransportTypeDisplayPort: return "dprt";
+  case kIOAudioDeviceTransportTypeHdmi: return "hdmi";
+  default: return "unknown";
+  }
+};
 
 int main(){
 
@@ -28,8 +47,9 @@ int main(){
 
   NSLog(@" I see %ld devices.", [devices count]);
   for (AVCaptureDevice* device in devices) {
-    NSLog(@"-------------------- %@ --------------- %@", 
-          [device localizedName], [device uniqueID]);
+    NSLog(@"-------------------- %@ --------------- %@ --- %s", 
+          [device localizedName], [device uniqueID],
+          TransportTypeAsString([device transportType]));
     for (AVCaptureDeviceFormat* currdf in device.formats)
         NSLog(@"Capture format: %@ ", currdf);
   }
