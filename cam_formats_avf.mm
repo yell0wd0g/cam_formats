@@ -45,7 +45,7 @@ int main(){
   //   devices];
   NSArray* devices = [AVCaptureDevice devices];
 
-  NSLog(@" I see %ld devices.", [devices count]);
+  NSLog(@" I see %ld devices.", (unsigned long)[devices count]);
   for (AVCaptureDevice* device in devices) {
     NSLog(@"-------------------- %@ --------------- %@ --- %s", 
           [device localizedName], [device uniqueID],
