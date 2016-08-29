@@ -1,6 +1,8 @@
 #!/bin/bash
 
-CMD="../../chromium/src/third_party/llvm-build/Release+Asserts/bin/clang++ cam_formats_avf.mm \
+CC="/Library/Developer/CommandLineTools/usr/bin/clang++"
+
+CMD="$CC cam_formats_avf.mm \
 /System/Library/Frameworks/AVFoundation.framework/AVFoundation \
 /System/Library/Frameworks/Foundation.framework/Foundation \
 /System/Library/Frameworks/CoreMedia.framework/CoreMedia \
@@ -9,7 +11,7 @@ CMD="../../chromium/src/third_party/llvm-build/Release+Asserts/bin/clang++ cam_f
 echo $CMD
 eval $CMD
 
-CMD="../../chromium/src/third_party/llvm-build/Release+Asserts/bin/clang++ cam_formats_avf.mm \
+CMD="$CC cam_formats_avf.mm \
 /System/Library/Frameworks/AVFoundation.framework/AVFoundation \
 /System/Library/Frameworks/Foundation.framework/Foundation \
 /System/Library/Frameworks/CoreMedia.framework/CoreMedia \
@@ -20,7 +22,7 @@ echo $CMD
 eval $CMD
 
 
-CMD="../../chromium/src/third_party/llvm-build/Release+Asserts/bin/clang++ cam_formats_qtkit.mm \
+CMD="$CC cam_formats_qtkit.mm \
 /System/Library/Frameworks/QTKit.framework/QTKit \
 /System/Library/Frameworks/Foundation.framework/Foundation \
 /System/Library/Frameworks/CoreMedia.framework/CoreMedia \
@@ -29,7 +31,7 @@ CMD="../../chromium/src/third_party/llvm-build/Release+Asserts/bin/clang++ cam_f
 echo $CMD
 eval $CMD
 
-CMD="../../chromium/src/third_party/llvm-build/Release+Asserts/bin/clang++ cam_formats_qtkit.mm \
+CMD="$CC cam_formats_qtkit.mm \
 /System/Library/Frameworks/QTKit.framework/QTKit \
 /System/Library/Frameworks/Foundation.framework/Foundation \
 /System/Library/Frameworks/CoreMedia.framework/CoreMedia \
