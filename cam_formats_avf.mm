@@ -35,23 +35,85 @@ const char* TransportTypeAsString(int connection) {
   }
 };
 
-int main(){
-
-  //NSBundle* avFoundationBundle = [NSBundle
-  //   bundleWithPath:@"/System/Library/Frameworks/AVFoundation.framework"];
-  //[avFoundationBundle load];
-
-  //NSArray* devices = [[avFoundationBundle classNamed:@"AVCaptureDevice"]
-  //   devices];
+int main() {
   NSArray* devices = [AVCaptureDevice devices];
 
   NSLog(@" I see %ld devices.", (unsigned long)[devices count]);
   for (AVCaptureDevice* device in devices) {
-    NSLog(@"-------------------- %@ --------------- %@ --- %s", 
+    NSLog(@"-------------------- %@ --------------- %@ --- %s",
           [device localizedName], [device uniqueID],
           TransportTypeAsString([device transportType]));
-    for (AVCaptureDeviceFormat* currdf in device.formats)
-        NSLog(@"Capture format: %@ ", currdf);
+    for (AVCaptureDeviceFormat* currdf in device.formats) {
+      NSLog(@"Capture format: %@", currdf);
+    }
+  }
+
+  NSArray* video_devices = [AVCaptureDevice devicesWithMediaType:@"video"];
+  for (AVCaptureDevice* device in video_devices) {
+    NSLog(@"-------------------- %@ --------------- %@ ---",
+          [device localizedName], [device uniqueID]);
+    NSLog(@"isFocusModeSupported: Locked: %s, Single-shot: %s, Continuous: %s",
+          [device isFocusModeSupported:AVCaptureFocusModeLocked] ? "yep"
+                                                                 : "nay",
+          [device isFocusModeSupported:AVCaptureFocusModeAutoFocus] ? "yep"
+                                                                    : "nay",
+          [device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]
+              ? "yep"
+              : "nay");
+
+    NSLog(
+        @"isExposureModeSupported: Locked: %s, Single-shot: %s, Continuous: %s",
+        [device isExposureModeSupported:AVCaptureExposureModeLocked] ? "yep"
+                                                                     : "nay",
+        [device isExposureModeSupported:AVCaptureExposureModeAutoExpose]
+            ? "yep"
+            : "nay",
+        [device
+            isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure]
+            ? "yep"
+            : "nay");
+
+    NSLog(@"isWhiteBalanceModeSupported: Locked: %s, Single-shot: %s, "
+          @"Continuous: %s",
+          [device isWhiteBalanceModeSupported:AVCaptureWhiteBalanceModeLocked]
+              ? "yep"
+              : "nay",
+          [device isWhiteBalanceModeSupported:
+                      AVCaptureWhiteBalanceModeAutoWhiteBalance]
+              ? "yep"
+              : "nay",
+          [device isWhiteBalanceModeSupported:
+                      AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance]
+              ? "yep"
+              : "nay");
+
+#if TARGET_OS_IPHONE
+    // |videoZoomFactor| is marked NS_AVAILABLE_IOS(7_0)
+    NSLog(@"videoZoomFactor: %f", [device videoZoomFactor]);
+#endif
+
+    NSLog(@"Flash: %s", [device hasFlash] ? "yep" : "nay");
+    NSLog(@"isFlashModeSupported: off: %s, (always) on: %s, auto: %s",
+          [device isFlashModeSupported:AVCaptureFlashModeOff] ? "yep" : "nay",
+          [device isFlashModeSupported:AVCaptureFlashModeOn] ? "yep" : "nay",
+          [device isFlashModeSupported:AVCaptureFlashModeAuto] ? "yep" : "nay");
+    NSLog(@"Torch: %s", [device hasTorch] ? "yep" : "nay");
+    NSLog(@"isTorchModeSupported: off: %s, (always) on: %s, auto: %s",
+          [device isTorchModeSupported:AVCaptureTorchModeOff] ? "yep" : "nay",
+          [device isTorchModeSupported:AVCaptureTorchModeOn] ? "yep" : "nay",
+          [device isTorchModeSupported:AVCaptureTorchModeAuto] ? "yep" : "nay");
+
+#if TARGET_OS_IPHONE
+    // These guys are marked NS_AVAILABLE_IOS(8_0)
+    NSLog(@"exposureTargetBias: min %f, max %f, current %f",
+          device.minExposureTargetBias, device.maxExposureTargetBias,
+          device.exposureTargetBias);
+
+    NSLog(@"maxWhiteBalanceGain: %f", device.maxWhiteBalanceGain);
+
+    NSLog(@"Current ISO: %f", device.ISO);
+#endif
+
   }
 }
 
